@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promise封装ajax</title>
+</head>
+
+<body>
+  <div>
+    <h2>promise 封装 ajax 操作</h2>
+    <button id="btn">点击发送 ajax</button>
+  </div>
+</body>
+<script>
+  /* 
+  接口地址 
+  正常写法
+  */
+  /* const btn = document.querySelector('#btn')
+  btn.addEventListener('click', () => {
+    // 创建 ajax
+    const xhr = new XMLHttpRequest()
+    // 初始化
+    xhr.open('GET', 'https://api.thecatapi.com/v1/images/search?limit=1')
+    // 发送
+    xhr.send()
+    // 处理响应结果
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        // 判断响应状态码
+        if (xhr.status >= 200 && xhr.status < 300) {
+          console.log(xhr.response)
+        } else {
+          console.log(xhr.status)
+        }
+      }
+    }
+  }) */
+
+  /* ******************************************************************************************* */
+
+  /* 
+  使用 promise 实现
+  */
+  const btn = document.querySelector('#btn')
+  btn.addEventListener('click', () => {
+    // 创建 promise
+    const p = new Promise((resolve, rejcet) => {
+      // 1、创建对象
+      const xhr = new XMLHttpRequest()
+      // 2、初始化
+      xhr.open('GET', 'https://api.thecatapi.com/v1/images/search?limit=1')
+      // 3、发送
+      xhr.send()
+      // 4、处理响应的结果
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(xhr.response)
+          } else {
+            rejcet(xhr.status)
+          }
+        }
+      }
+    })
+    // 使用 then 处理返回值
+    p.then((res) => {
+      console.log(res)
+    }, (err) => {
+      console.log(err)
+    })
+  })
+</script>
+
+</html>
