@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>点击抽奖</title>
+</head>
+
+<body>
+  <div class="container">
+    <h2 class="page-header">Promise初体验</h2>
+    <button class="btn" id="btn">点击抽奖</button>
+  </div>
+</body>
+<script>
+  /* 
+生成随机数
+*/
+  function rand(m, n) {
+    return Math.ceil(Math.random() * (n - m + 1)) + m - 1
+  }
+  /* 
+  点击按钮 2s显式是否中奖（30%概率中奖）
+  若中奖弹出 恭喜恭喜，奖品为10万 RMB优惠券
+  若没中奖弹出 再接再厉
+  */
+
+  const btn = document.querySelector('#btn')
+  btn.addEventListener('click', () => {
+    /* 
+    正常的写法
+    */
+    /* setTimeout(() => {
+      let n = rand(1, 100)
+      if (n <= 30) {
+        alert('恭喜恭喜，奖品为10万 RMB优惠券')
+      } else {
+        alert('再接再厉')
+      }
+    }, 1000); */
+
+    /* ******************************************************************************************** */
+
+    /* 
+    使用promise实现
+    resolve 解决  函数类型数据 成功调用
+    reject 拒绝  函数类型数据  失败调用
+    */
+    const p = new Promise((resolve, reject) => [
+      setTimeout(() => {
+        let n = rand(1, 100)
+        if (n <= 30) {
+          resolve() // 将 promise 对象的状态设置成 成功
+        } else {
+          reject() // 将 promise 对象的状态设置成 失败
+        }
+      }, 1000)
+    ])
+    /* 
+    调用 then 方法
+    第一个函数是成功的函数
+    第二个是失败的函数
+    */
+    p.then(() => {
+      // 成功的回调
+      alert('恭喜恭喜，奖品为10万 RMB优惠券')
+    }, () => {
+      // 失败的回调
+      alert('再接再厉')
+    })
+  })
+</script>
+
+</html>
