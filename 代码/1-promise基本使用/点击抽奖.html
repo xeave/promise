@@ -52,9 +52,9 @@
       setTimeout(() => {
         let n = rand(1, 100)
         if (n <= 30) {
-          resolve() // 将 promise 对象的状态设置成 成功
+          resolve(n) // 将 promise 对象的状态设置成 成功
         } else {
-          reject() // 将 promise 对象的状态设置成 失败
+          reject(n) // 将 promise 对象的状态设置成 失败
         }
       }, 1000)
     ])
@@ -63,14 +63,27 @@
     第一个函数是成功的函数
     第二个是失败的函数
     */
-    p.then(() => {
+    p.then((value) => {
       // 成功的回调
-      alert('恭喜恭喜，奖品为10万 RMB优惠券')
-    }, () => {
+      alert(`恭喜恭喜，奖品为10万 RMB优惠券 您的中奖号码为 ${value}`)
+    }, (reason) => {
       // 失败的回调
-      alert('再接再厉')
+      alert(`再接再厉 你的号码为 ${reason}`)
     })
   })
 </script>
 
 </html>
+
+
+<!-- 
+理解
+
+用promise封装了一个异步操作 
+在成功时调用 resolve 函数 把成功的结果传递给 resolve 函数
+在失败时调用 reject 函数 把失败的结果传递给 reject 函数
+用 promise 的 then 方法 处理成功失败的代码
+第一个箭头函数对应的是 resolve 的返回值
+第二个箭头函数对应的是 reject 的返回值
+
+ -->
